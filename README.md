@@ -26,16 +26,17 @@ A simple yet powerful RESTful API built with [Go](https://golang.org/) and the [
 
 ## 📁 Project Structure
 
+```
 microtask-api/
 ├── db/
-│ └── db.go # Database connection and initialization
+│   └── db.go           # Database connection and initialization
 ├── handlers/
-│ └── task.go # All task-related handler logic
-├── main.go # Entry point, route definitions
-├── go.mod # Go module definition
-├── go.sum # Dependency checksums
-└── README.md # Project documentation
-
+│   └── task.go         # All task-related handler logic
+├── main.go             # Entry point, route definitions
+├── go.mod              # Go module definition
+├── go.sum              # Dependency checksums
+└── README.md           # Project documentation
+```
 
 ---
 
@@ -51,8 +52,9 @@ cd microtask-api
 
 go run main.go
 
-
 The server will start at: http://localhost:8080
+
+---
 
 ## 🔌 API Endpoints
 
@@ -65,8 +67,11 @@ The server will start at: http://localhost:8080
 | PUT    | `/tasks/:id` | Update a task     |
 | DELETE | `/tasks/:id` | Delete a task     |
 
+---
+
 ## 📦 Example JSON Payload
 
+```
 {
   "title": "Build a frontend",
   "description": "React or Svelte frontend for the API",
@@ -74,3 +79,4 @@ The server will start at: http://localhost:8080
   "priority": "High",
   "completed": false
 }
+```
