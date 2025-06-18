@@ -44,13 +44,17 @@ microtask-api/
 
 ### 1. Clone the Repository
 
+```
 bash
 git clone https://github.com/YOUR_USERNAME/microtask-api.git
 cd microtask-api
+```
 
 ### 2. Run the API
 
+```
 go run main.go
+```
 
 The server will start at: http://localhost:8080
 
