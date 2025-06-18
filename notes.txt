@@ -1,0 +1,3 @@
+done api works now front end.
+
+what would be more useful building simple html css js front end for pc or react native for mobile?
