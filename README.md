@@ -44,7 +44,6 @@ microtask-api/
 
 ### 1. Clone the Repository
 
-bash
 ```
 git clone https://github.com/YOUR_USERNAME/microtask-api.git
 cd microtask-api
