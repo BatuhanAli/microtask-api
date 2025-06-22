@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -47,7 +46,6 @@ func GetTasks(c *gin.Context) {
 	var query string = `SELECT id, title, description, due_date, priority, completed FROM tasks`
 
 	if completedParam != "" {
-		fmt.Println("is completedParam:", completedParam)
 		var completedIntRepresentation int = 0 // default 0 for false, 1 for true
 		if completedParam == "true" {
 			completedIntRepresentation = 1

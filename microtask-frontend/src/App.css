@@ -1,0 +1,170 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #0a1a3c, #1e2a5a);
+  color: #fff;
+  scrollbar-width: none;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.app-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+  overflow-y: none;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.top-controls,
+.sort-controls,
+.filter-buttons {
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.task-list-container {
+  margin-top: 2rem;
+}
+
+.task-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.task-item {
+  background-color: #1f2e55;
+  border-left: 8px solid transparent;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.task-incomplete {
+  border-color: #ff6b6b;
+}
+
+.task-complete {
+  border-color: #4caf50;
+}
+
+.task-item button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #3b5998;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.task-item button:hover {
+  background-color: #2d4373;
+}
+
+.mini-menu {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 10, 30, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.modal {
+  background-color: #243d6f;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  transform: translateY(50px);
+  animation: floatUp 0.4s ease forwards;
+  color: white;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal form input,
+.modal form select,
+.modal form button {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+}
+
+.modal form input,
+.modal form select {
+  background-color: #132347;
+  color: #fff;
+}
+
+.modal form button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.modal form button:hover {
+  background-color: #0056b3;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.add-task-button {
+  background-color: #0057b8;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-task-button:hover {
+  background-color: #003c87;
+}
