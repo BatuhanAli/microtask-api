@@ -1,8 +1,8 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #0a1a3c, #1e2a5a);
-  color: #fff;
+  background: #f0f4f8;
+  color: #000000;
   scrollbar-width: none;
 }
 
@@ -18,12 +18,12 @@ html, body {
   padding: 2rem;
   max-width: 800px;
   margin: auto;
-  overflow-y: none;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
+  color: #000000;
 }
 
 .top-controls,
@@ -35,50 +35,67 @@ html, body {
   flex-wrap: wrap;
 }
 
-.task-list-container {
-  margin-top: 2rem;
+.top-controls {
+  padding-right: 0.7rem;
 }
 
-.task-list {
-  list-style-type: none;
-  padding: 0;
+.sort-controls select {
+  padding: 0.2rem;
+  border: 1px solid #003366;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #eaf1fb;
+  color: #000;
 }
 
-.task-item {
-  background-color: #1f2e55;
-  border-left: 8px solid transparent;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
+.sort-controls {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  background-color: #f0f4fb;
+}
+
+.sort-controls :focus {
+  border-radius: 4px;
+  border: 1px solid #003366;
+}
+
+.filter-buttons {
+  justify-content: space-between;
+  position: relative;
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+}
+
+.filter-buttons button {
+  flex: 1;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #003366;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.filter-buttons button.active {
+  color: #000;
+}
+
+.filter-buttons button::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: transparent;
   transition: background-color 0.3s ease;
 }
 
-.task-incomplete {
-  border-color: #ff6b6b;
-}
-
-.task-complete {
-  border-color: #4caf50;
-}
-
-.task-item button {
-  margin-right: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #3b5998;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.task-item button:hover {
-  background-color: #2d4373;
-}
-
-.mini-menu {
-  margin-top: 0.5rem;
-  display: flex;
-  gap: 1rem;
+.filter-buttons button.active::after {
+  background-color: #003366;
 }
 
 .modal-overlay {
@@ -87,7 +104,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(10, 10, 30, 0.85);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,15 +114,15 @@ html, body {
 }
 
 .modal {
-  background-color: #243d6f;
+  background-color: #ffffff;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   transform: translateY(50px);
   animation: floatUp 0.4s ease forwards;
-  color: white;
+  color: #000;
 }
 
 @keyframes fadeIn {
@@ -134,18 +151,20 @@ html, body {
 
 .modal form input,
 .modal form select {
-  background-color: #132347;
-  color: #fff;
+  background-color: #eaf1fb;
+  color: #000;
+  border: 1px solid #ccc;
 }
 
 .modal form button {
-  background-color: #007bff;
+  background-color: #1e90ff;
   color: white;
   cursor: pointer;
+  width: 47.5%;
 }
 
 .modal form button:hover {
-  background-color: #0056b3;
+  background-color: #007acc;
 }
 
 .modal-actions {
@@ -155,7 +174,7 @@ html, body {
 }
 
 .add-task-button {
-  background-color: #0057b8;
+  background-color: rgb(11, 11, 184);
   color: white;
   padding: 0.75rem 1.25rem;
   border: none;
@@ -166,5 +185,150 @@ html, body {
 }
 
 .add-task-button:hover {
-  background-color: #003c87;
+  background-color: rgb(7, 7, 138);
+}
+
+.task-list-container {
+  margin-bottom: 1.5rem;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  background-color: #ffffff;
+  border-left: 8px solid transparent;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+}
+
+.task-item h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #003366;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.task-incomplete {
+  border-color: #ff6b6b;
+}
+
+.task-complete {
+  border-color: #4caf50;
+}
+
+.task-item p {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 0 0 95%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 95%;
+}
+
+.task-actions {
+  position: absolute;
+  margin-top: 0.5rem;
+  top: 0;
+  right: 1rem;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex: 0 0 5%;
+}
+
+.more-button {
+  background: none;
+  border: none;
+  color: darkblue;
+  cursor: pointer;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.checkbox-toggle {
+  transform: scale(1.5);
+  border: none;
+  cursor: pointer;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s;
+  content: "X";
+  background-color: #fd6464;
+}
+
+.checkbox-toggle:hover {
+  background-color: #4caf50;
+}
+
+.checkbox-toggle:checked {
+  background-color: #4caf50;
+}
+
+.checkbox-toggle:checked:hover {
+  background-color: red;
+}
+
+.checkbox-toggle:checked::after {
+  content: "✓";
+  color: white;
+  display: block;
+  text-align: center;
+  line-height: 1.2em;
+}
+
+.mini-menu {
+  position: absolute;
+  top: 0.95rem;
+  right: 1.2rem;
+  z-index: 2000;
+  background-color: rgb(62, 62, 230);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border-top-right-radius: 0;
+  min-width: 6rem;
+}
+
+.mini-menu button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.sort-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }

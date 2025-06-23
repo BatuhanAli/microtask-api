@@ -100,9 +100,37 @@ function App() {
 
 return (
   <div className="app-container">
-    <h1 className="header">Microtask Manager</h1>
+    <h1 className="header">📚 Microtask Manager</h1>
 
-    <div className="top-controls">
+    <div className="filter-buttons">
+      <button 
+        className={sortCompleted ? "" : "active"} 
+        onClick={() => setSortCompleted(false)}
+      >
+        Incomplete Tasks
+      </button>
+      <button 
+        className={sortCompleted ? "active" : ""} 
+        onClick={() => setSortCompleted(true)}
+      >
+        Completed Tasks
+      </button>
+    </div>
+
+    <div className="sort-container">
+      <div className="sort-controls">
+        <label>Sort By:</label>
+        <select value={sortMode} onChange={(e) => setSortMode(e.target.value)}>
+          <option value="due_date">Due Date</option>
+          <option value="priority">Priority</option>
+        </select>
+        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+
+      <div className="top-controls">
       <button className="add-task-button" onClick={() => setShowCreateTask(true)}>
         Add New Task
       </button>
@@ -130,6 +158,7 @@ return (
                 onChange={(e) => setDueDate(e.target.value)} 
                 required 
               />
+              <div style={{ width: "103.5%" }}>
               <select 
                 value={priority} 
                 onChange={(e) => setPriority(e.target.value)}
@@ -138,6 +167,7 @@ return (
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
               </select>
+              </div>
               <div className="modal-actions">
                 <button type="submit">Create Task</button>
                 <button type="button" onClick={() => setShowCreateTask(false)}>Cancel</button>
@@ -147,54 +177,47 @@ return (
         </div>
       )}
     </div>
-
-    <div className="sort-controls">
-      <label>Sort By:</label>
-      <select value={sortMode} onChange={(e) => setSortMode(e.target.value)}>
-        <option value="due_date">Due Date</option>
-        <option value="priority">Priority</option>
-      </select>
-      <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
-      </select>
-    </div>
-
-    <div className="filter-buttons">
-      <button onClick={() => setSortCompleted(false)}>Incomplete Tasks</button>
-      <button onClick={() => setSortCompleted(true)}>Completed Tasks</button>
     </div>
 
     <div className="task-list-container">
-      <h2>Tasks</h2>
       <ul className="task-list">
         {tasks.map((task) => (
           <li
             key={task.id}
-            className={`task-item ${sortCompleted ? 'task-complete' : 'task-incomplete'}`}
+            className={`task-item ${task.completed ? 'task-complete' : 'task-incomplete'}`}
           >
-            <h2>{task.title}</h2>
-            <p>{task.description}</p>
-            <p>Due: {new Date(task.due_date).toLocaleDateString()}</p>
-            <p>Priority: {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</p>
-            <p>Status: {task.completed ? "Completed" : "Incomplete"}</p>
-            <button onClick={() => handleToggleCompletion(task.id)}>
-              {task.completed ? "Mark as Incomplete" : "Mark as Complete"}
-            </button>
-            <button onClick={() => showMiniMenu(task)}>More</button>
-            {activeMenuId === task.id && (
-              <div className="mini-menu">
-                <button onClick={() => {
-                  setShowUpdateTask(true);
-                  setCurrentTask(task);
-                  setTitle(task.title);
-                  setDescription(task.description);
-                  setDueDate(task.due_date);
-                  setPriority(task.priority.charAt(0).toUpperCase() + task.priority.slice(1));
-                }}>Edit</button>
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
-              </div>
-            )}
+            <div className="task-details">
+              <h3>{task.title}</h3>
+              <p>{task.description}</p>
+              <p>Due: {new Date(task.due_date).toLocaleDateString()}</p>
+              <p>Priority: {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</p>
+            </div>
+
+            <div className="task-actions">
+              <button className="more-button" onClick={() => showMiniMenu(task)}>⋮</button>
+
+              <input
+                type="checkbox"
+                className="checkbox-toggle"
+                checked={task.completed}
+                onChange={() => handleToggleCompletion(task.id)}
+              />
+
+              {activeMenuId === task.id && (
+                <div className="mini-menu">
+                  <button onClick={() => {
+                    setShowUpdateTask(true);
+                    setCurrentTask(task);
+                    setTitle(task.title);
+                    setDescription(task.description);
+                    setDueDate(task.due_date);
+                    setPriority(task.priority.charAt(0).toUpperCase() + task.priority.slice(1));
+                  }}>Edit</button>
+                  <button onClick={() => handleDelete(task.id)}>Delete</button>
+                </div>
+              )}
+              <div></div>
+            </div>
           </li>
         ))}
       </ul>
