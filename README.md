@@ -63,6 +63,7 @@ npm install        # Install frontend dependencies
 npm start          # Start the frontend development server
 ```
 
+The frontend will typically be available at: http://localhost:3000
 The server will start at: http://localhost:8080
 
 ---
