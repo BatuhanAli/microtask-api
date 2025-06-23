@@ -55,6 +55,14 @@ cd microtask-api
 go run main.go
 ```
 
+### 3. Start the Frontend
+
+```
+cd microtask-frontend
+npm install        # Install frontend dependencies
+npm start          # Start the frontend development server
+```
+
 The server will start at: http://localhost:8080
 
 ---
