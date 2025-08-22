@@ -1,334 +1,967 @@
-body {
+@import './theme.css';
+
+* {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f0f4f8;
-  color: #000000;
-  scrollbar-width: none;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-medium) var(--bg-secondary);
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: var(--radius-sm);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--border-dark);
 }
 
 .app-container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 2rem;
-  max-width: 800px;
-  margin: auto;
+  padding-top: 80px; /* Account for theme toggle */
 }
 
 .header {
   text-align: center;
-  margin-bottom: 5rem;
-  color: #000000;
+  margin-bottom: 3rem;
+  color: var(--text-primary);
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.top-controls,
-.sort-controls,
+/* Filter and Controls */
 .filter-buttons {
-  margin-bottom: 1.5rem;
   display: flex;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 4px;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+}
+
+.filter-buttons button {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.filter-buttons button:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.filter-buttons button.active {
+  color: var(--text-inverse);
+  background: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.sort-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
   gap: 1rem;
   flex-wrap: wrap;
-}
-
-.top-controls {
-  padding-right: 0.7rem;
-}
-
-.sort-controls select {
-  padding: 0.2rem;
-  border: 1px solid #003366;
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: #eaf1fb;
-  color: #000;
 }
 
 .sort-controls {
   display: flex;
   align-items: center;
-  padding-left: 1rem;
-  background-color: #f0f4fb;
+  gap: 1rem;
+  background: var(--bg-primary);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
-.sort-controls :focus {
-  border-radius: 4px;
-  border: 1px solid #003366;
+.sort-controls label {
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
 }
 
-.filter-buttons {
-  justify-content: space-between;
-  position: relative;
-  border-bottom: 2px solid #ccc;
-  width: 100%;
-}
-
-.filter-buttons button {
-  flex: 1;
-  padding: 0.75rem;
-  background: none;
-  border: none;
-  font-size: 1rem;
+.sort-controls select {
+  padding: 0.5rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
   cursor: pointer;
-  color: #003366;
-  position: relative;
-  transition: color 0.3s ease;
+  transition: all var(--transition-fast);
 }
 
-.filter-buttons button.active {
-  color: #000;
+.sort-controls select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.filter-buttons button::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: transparent;
-  transition: background-color 0.3s ease;
+/* Add Task Button */
+.add-task-button {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-hover));
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-medium);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.filter-buttons button.active::after {
-  background-color: #003366;
+.add-task-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
+.add-task-button:active {
+  transform: translateY(0);
+}
+
+.add-task-button::before {
+  content: '+';
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  opacity: 0;
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeIn var(--transition-medium) ease;
 }
 
 .modal {
-  background-color: #ffffff;
+  background: var(--bg-primary);
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   width: 100%;
-  max-width: 500px;
-  transform: translateY(50px);
-  animation: floatUp 0.4s ease forwards;
-  color: #000;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp var(--transition-medium) ease;
+  border: 1px solid var(--border-light);
 }
 
 @keyframes fadeIn {
-  to {
-    opacity: 1;
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(50px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
   }
 }
 
-@keyframes floatUp {
-  to {
-    transform: translateY(0);
-  }
+.modal h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .modal form input,
 .modal form select,
-.modal form button {
-  display: block;
+.modal form textarea {
   width: 100%;
-  margin-top: 1rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
-  border-radius: 5px;
-  border: none;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
 }
 
-.modal form input,
-.modal form select {
-  background-color: #eaf1fb;
-  color: #000;
-  border: 1px solid #ccc;
+.modal form input:focus,
+.modal form select:focus,
+.modal form textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.modal form button {
-  background-color: #1e90ff;
-  color: white;
-  cursor: pointer;
-  width: 47.5%;
-}
-
-.modal form button:hover {
-  background-color: #007acc;
+.modal form textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .modal-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
-.add-task-button {
-  background-color: rgb(11, 11, 184);
-  color: white;
-  padding: 0.75rem 1.25rem;
+.modal-actions button {
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all var(--transition-fast);
 }
 
-.add-task-button:hover {
-  background-color: rgb(7, 7, 138);
+.modal-actions button[type="submit"] {
+  background: var(--accent-primary);
+  color: white;
 }
 
+.modal-actions button[type="submit"]:hover {
+  background: var(--accent-primary-hover);
+}
+
+.modal-actions button[type="button"] {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.modal-actions button[type="button"]:hover {
+  background: var(--bg-hover);
+}
+
+/* Task List */
 .task-list-container {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .task-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .task-item {
-  background-color: #ffffff;
-  border-left: 8px solid transparent;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  overflow: visible;
+  transition: all var(--transition-medium);
   position: relative;
-  justify-content: space-between;
 }
 
-.task-item h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #003366;
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.task-item.task-completed {
+  opacity: 0.8;
+  border-left: 4px solid var(--accent-secondary);
+}
+
+.task-item.task-incomplete {
+  border-left: 4px solid var(--accent-danger);
+}
+
+.task-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.task-incomplete {
-  border-color: #ff6b6b;
-}
-
-.task-complete {
-  border-color: #4caf50;
-}
-
-.task-item p {
-  margin: 0.5rem 0;
-  color: #333;
+  align-items: flex-start;
+  padding: 1.5rem;
+  gap: 1rem;
 }
 
 .task-details {
+  flex: 1;
+  min-width: 0; /* Prevents overflow issues */
+}
+
+.task-details h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.task-details p {
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.task-meta {
   display: flex;
-  flex-direction: column;
-  gap: 0;
-  flex: 0 0 95%;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-  max-width: 95%;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.task-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.task-badge.priority-high {
+  background: var(--priority-bg);
+  color: var(--priority-color);
+}
+
+.task-badge.priority-medium {
+  background: var(--priority-bg);
+  color: var(--priority-color);
+}
+
+.task-badge.priority-low {
+  background: var(--priority-bg);
+  color: var(--priority-color);
 }
 
 .task-actions {
-  position: absolute;
-  margin-top: 0.5rem;
-  top: 0;
-  right: 1rem;
-  height: 90%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex: 0 0 5%;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
 }
 
 .more-button {
   background: none;
   border: none;
-  color: darkblue;
+  color: var(--text-muted);
   cursor: pointer;
-  font-size: 2rem;
-  text-align: center;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  position: relative;
 }
 
-.checkbox-toggle {
-  transform: scale(1.5);
-  border: none;
-  cursor: pointer;
-  background: none;
-  appearance: none;
-  -webkit-appearance: none;
-  width: 1.2em;
-  height: 1.2em;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  transition: background-color 0.3s;
-  content: "X";
-  background-color: #fd6464;
-}
-
-.checkbox-toggle:hover {
-  background-color: #4caf50;
-}
-
-.checkbox-toggle:checked {
-  background-color: #4caf50;
-}
-
-.checkbox-toggle:checked:hover {
-  background-color: red;
-}
-
-.checkbox-toggle:checked::after {
-  content: "✓";
-  color: white;
-  display: block;
-  text-align: center;
-  line-height: 1.2em;
+.more-button:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
 }
 
 .mini-menu {
   position: absolute;
-  top: 0.95rem;
-  right: 1.2rem;
-  z-index: 2000;
-  background-color: rgb(62, 62, 230);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  border-top-right-radius: 0;
-  min-width: 6rem;
+  top: 100%;
+  right: 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  min-width: 120px;
+  overflow: hidden;
+  animation: slideDown var(--transition-fast) ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .mini-menu button {
-  background: none;
-  border: none;
-  color: #ffffff;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
   width: 100%;
   text-align: left;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
 }
 
-.sort-container {
+.mini-menu button:hover {
+  background: var(--bg-hover);
+}
+
+.mini-menu button:last-child {
+  color: var(--accent-danger);
+}
+
+.checkbox-toggle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast);
+  appearance: none;
+}
+
+.checkbox-toggle:checked {
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+}
+
+.checkbox-toggle:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.checkbox-toggle:hover {
+  border-color: var(--accent-primary);
+}
+
+/* Steps Section */
+.task-steps {
+  border-top: 1px solid var(--border-light);
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary);
+}
+
+.steps-header {
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.steps-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.steps-progress {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.step-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.step-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast);
+  appearance: none;
+  flex-shrink: 0;
+}
+
+.step-checkbox:checked {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.step-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.step-title {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.step-item.completed .step-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.step-actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.step-item:hover .step-actions {
+  opacity: 1;
+}
+
+.step-action-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.step-action-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+/* Step Management in Modal */
+.steps-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.steps-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.step-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-input {
+  flex: 1;
+}
+
+.add-step-btn {
+  background: var(--accent-secondary);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
+}
+
+.add-step-btn:hover {
+  background: var(--accent-secondary);
+  opacity: 0.9;
+}
+
+.step-list-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.step-edit-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.step-edit-input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.remove-step-btn {
+  background: var(--accent-danger);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.remove-step-btn:hover {
+  opacity: 0.9;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: var(--text-muted);
+  padding: 0.5rem;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 1rem;
+    padding-top: 80px;
+  }
+  
+  .header {
+    font-size: 2rem;
+  }
+  
+  .sort-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .task-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .task-actions {
+    align-self: flex-end;
+  }
+  
+  .task-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .modal {
+    margin: 1rem;
+    max-width: none;
+  }
+  
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 8px;
+    font-size: 18px;
+  }
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.empty-state-description {
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Drag and Drop Styles */
+
+/* Drag Handle Styling */
+.drag-handle {
+  cursor: grab;
+  color: var(--drag-handle-color);
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: var(--drag-transition);
+  user-select: none;
+  position: relative;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.drag-handle:hover {
+  color: var(--drag-handle-hover);
+  background: var(--bg-hover);
+  transform: scale(1.05);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  color: var(--drag-active-color);
+}
+
+/* Visual indicator for draggable items */
+.drag-handle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 60%;
+  background: var(--drag-handle-color);
+  opacity: 0;
+  transition: var(--drag-transition);
+}
+
+.drag-handle:hover::before {
+  opacity: 0.5;
+}
+
+/* Step Item Drag States */
+.step-edit-item {
+  position: relative;
+  transition: var(--drag-transition);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--border-light);
+  /* Hardware acceleration for smooth animations */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.step-edit-item:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-medium);
+}
+
+/* Source item being dragged - constrain to vertical movement only */
+.step-edit-item[data-dragging="true"] {
+  opacity: var(--drag-source-opacity);
+  transform: rotate(0deg) scale(0.98);
+  z-index: 1;
+  box-shadow: var(--shadow-sm);
+  border-color: var(--accent-primary);
+  /* Prevent horizontal movement during drag */
+  transform-origin: center;
+}
+
+/* Smooth return animation */
+.step-edit-item[data-dragging="false"] {
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+/* Step List Container */
+.step-list-edit {
+  min-height: 60px;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  transition: var(--drag-transition);
+  /* Subtle visual cue for droppable area */
+  border: 1px solid transparent;
+}
+
+.step-list-edit[data-drop-zone="active"] {
+  background: var(--drop-zone-bg);
+  border: 2px dashed var(--drop-zone-border);
+}
+
+.step-list-edit[data-drop-zone="invalid"] {
+  background: var(--drop-zone-invalid-bg);
+  border: 2px dashed var(--drop-zone-invalid-border);
+}
+
+/* Step Input Styling for Drag Context */
+.step-edit-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  transition: var(--transition-fast);
+}
+
+.step-edit-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Remove Button Styling */
+.remove-step-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-step-btn:hover {
+  color: var(--accent-danger);
+  background: var(--bg-hover);
+}
+
+/* Drag Overlay Styles (for future use) */
+.drag-overlay {
+  background: var(--drag-overlay-bg);
+  border: 2px solid var(--drag-overlay-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--drag-lift-shadow);
+  padding: 0.75rem;
+  transform: rotate(3deg);
+  opacity: 0.95;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  /* Performance optimization */
+  position: fixed;
+  will-change: transform;
+}
+
+.drag-overlay .drag-handle {
+  color: var(--drag-active-color);
+}
+
+.drag-overlay .step-edit-input {
+  background: transparent;
+  border: none;
+  pointer-events: none;
+  color: var(--text-primary);
+}
+
+/* Accessibility Enhancements */
+.drag-handle:focus {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  background: var(--bg-hover);
+}
+
+.step-edit-item:focus-within {
+  box-shadow: 0 0 0 2px var(--accent-primary);
+  border-radius: var(--radius-md);
+}
+
+/* Drop indicator for precise drop positioning */
+.drop-indicator {
+  height: 2px;
+  background: var(--accent-primary);
+  border-radius: 1px;
+  margin: 0.25rem 0;
+  opacity: 0;
+  transform: scaleX(0);
+  transition: var(--drag-transition);
+}
+
+.drop-indicator.active {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Browser compatibility fallbacks */
+@supports not (backdrop-filter: blur(4px)) {
+  .drag-overlay {
+    background: var(--bg-primary);
+    opacity: 0.98;
+  }
+}
+
+/* Fallback for CSS custom properties */
+@supports not (color: var(--primary)) {
+  .drag-handle {
+    color: #64748b; /* Fallback color */
+  }
+  
+  .drag-handle:hover {
+    color: #1e293b; /* Fallback hover */
+  }
+  
+  .step-edit-item[data-dragging="true"] {
+    opacity: 0.4;
+  }
 }

@@ -1,95 +1,126 @@
-# 📋 MicroTask Manager API
+# 📋 MicroTask Manager
 
-A simple yet powerful RESTful API built with [Go](https://golang.org/) and the [Gin](https://github.com/gin-gonic/gin) web framework. This API allows you to manage tasks, track their completion status, set priorities, and more.
-
----
+A full-stack task management application with drag-and-drop functionality, built with Go (Gin) backend and React frontend.
 
 ## 🚀 Features
 
-- Create, Read, Update, and Delete tasks
-- Track task completion
-- Set due dates and priorities
-- Toggle completion status
-- Built with SQLite (lightweight and fast)
+### Backend API
+- RESTful API for task management (CRUD operations)
+- SQLite database for data persistence
+- Task ordering and priority management
 - CORS enabled for frontend integration
 
----
+### Frontend
+- React-based user interface
+- Drag-and-drop task reordering
+- Real-time task updates
+- Responsive design with custom theming
+- Modal-based task creation and editing
 
 ## 🛠 Tech Stack
 
-- **Language:** Go
-- **Framework:** Gin
-- **Database:** SQLite
-- **Architecture:** REST API
+**Backend:**
+- Go with Gin web framework
+- SQLite database
+- RESTful API architecture
 
----
+**Frontend:**
+- React
+- CSS3 with custom theming
+- Drag-and-drop functionality
 
 ## 📁 Project Structure
 
 ```
 microtask-api/
 ├── db/
-│   └── db.go           # Database connection and initialization
+│   ├── db.go           # Database connection and models
+│   └── models.go       # Data models and schemas
 ├── handlers/
-│   └── task.go         # All task-related handler logic
-├── main.go             # Entry point, route definitions
-├── go.mod              # Go module definition
-├── go.sum              # Dependency checksums
-└── README.md           # Project documentation
+│   └── task.go         # Task API handlers
+├── microtask-frontend/
+│   ├── src/
+│   │   ├── App.js      # Main React component
+│   │   ├── DragDropProvider.js    # Drag-drop context
+│   │   ├── SortableComponents.js  # Sortable UI components
+│   │   ├── dragUtils.js           # Drag-drop utilities
+│   │   ├── api.js      # API client
+│   │   └── theme.css   # Custom styling
+│   └── package.json    # Frontend dependencies
+├── main.go             # Server entry point
+├── go.mod              # Go dependencies
+└── tasks.db            # SQLite database
 ```
-
----
 
 ## 🔧 Setup Instructions
 
-### 1. Clone the Repository
+### Prerequisites
+- Go 1.19 or higher
+- Node.js and npm
 
-```
-git clone https://github.com/YOUR_USERNAME/microtask-api.git
+### 1. Clone and Setup Backend
+
+```bash
+git clone <repository-url>
 cd microtask-api
-```
-
-### 2. Run the API
-
-```
+go mod download
 go run main.go
 ```
 
-### 3. Start the Frontend
+Backend server starts at: http://localhost:8080
 
-```
+### 2. Setup Frontend
+
+```bash
 cd microtask-frontend
-npm install        # Install frontend dependencies
-npm start          # Start the frontend development server
+npm install
+npm start
 ```
 
-The frontend will typically be available at: http://localhost:3000
-
-The server will start at: http://localhost:8080
-
----
+Frontend application starts at: http://localhost:3000
 
 ## 🔌 API Endpoints
 
-| Method | Endpoint     | Description       |
-| ------ | ------------ | ----------------- |
-| GET    | `/`          | Welcome message   |
-| GET    | `/tasks`     | List all tasks    |
-| GET    | `/tasks/:id` | Get task by ID    |
-| POST   | `/tasks`     | Create a new task |
-| PUT    | `/tasks/:id` | Update a task     |
-| DELETE | `/tasks/:id` | Delete a task     |
+| Method | Endpoint     | Description                    |
+| ------ | ------------ | ------------------------------ |
+| GET    | `/`          | Welcome message                |
+| GET    | `/tasks`     | Get all tasks (ordered)        |
+| GET    | `/tasks/:id` | Get specific task              |
+| POST   | `/tasks`     | Create new task                |
+| PUT    | `/tasks/:id` | Update task                    |
+| DELETE | `/tasks/:id` | Delete task                    |
+| PUT    | `/tasks/reorder` | Update task order (drag-drop) |
 
----
+## 📦 API Data Format
 
-## 📦 Example JSON Payload
-
-```
+### Task Object
+```json
 {
-  "title": "Build a frontend",
-  "description": "React or Svelte frontend for the API",
-  "due_date": "2025-06-20",
+  "id": 1,
+  "title": "Complete project documentation",
+  "description": "Write comprehensive README and API docs",
+  "due_date": "2025-08-25",
   "priority": "High",
+  "completed": false,
+  "order_index": 1
+}
+```
+
+### Create Task
+```json
+{
+  "title": "New Task",
+  "description": "Task description",
+  "due_date": "2025-08-25",
+  "priority": "Medium",
   "completed": false
 }
 ```
+
+## 🎯 Key Features
+
+- **Drag & Drop**: Intuitive task reordering with visual feedback
+- **Persistent Order**: Task positions saved to database
+- **Real-time Updates**: Changes reflected immediately
+- **Responsive Design**: Works on desktop and mobile
+- **Clean UI**: Modern interface with custom theming
