@@ -18,6 +18,12 @@ func InitDB() {
 		panic(err)
 	}
 
+	// Enable foreign key constraints (required for CASCADE to work)
+	_, err = DB.Exec("PRAGMA foreign_keys = ON")
+	if err != nil {
+		panic(fmt.Sprintf("Error enabling foreign keys: %v", err))
+	}
+
 	// Main tasks table
 	createTasksTable := `
     CREATE TABLE IF NOT EXISTS tasks (

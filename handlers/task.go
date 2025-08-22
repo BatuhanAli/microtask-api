@@ -253,14 +253,47 @@ func ToggleTaskCompletion(c *gin.Context) {
 func DeleteTask(c *gin.Context) {
 	id := c.Param("id")
 
-	// Delete task (steps auto-delete due to foreign key CASCADE)
-	_, err := db.DB.Exec(`DELETE FROM tasks WHERE id = ?`, id)
+	// Start transaction to ensure atomicity
+	tx, err := db.DB.Begin()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to start transaction"})
+		return
+	}
+	defer tx.Rollback()
+
+	// Explicitly delete task steps first
+	_, err = tx.Exec(`DELETE FROM task_steps WHERE task_id = ?`, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete task steps"})
+		return
+	}
+
+	// Delete the main task
+	result, err := tx.Exec(`DELETE FROM tasks WHERE id = ?`, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete task"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully"})
+	// Check if task was actually deleted
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check deletion result"})
+		return
+	}
+
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+		return
+	}
+
+	// Commit the transaction
+	if err := tx.Commit(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to commit transaction"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Task and all steps deleted successfully"})
 }
 
 // Helper functions
