@@ -88,31 +88,63 @@ Frontend application starts at: http://localhost:3000
 | GET    | `/tasks/:id` | Get specific task              |
 | POST   | `/tasks`     | Create new task                |
 | PUT    | `/tasks/:id` | Update task                    |
+| PATCH  | `/tasks/:id` | Toggle task completion         |
 | DELETE | `/tasks/:id` | Delete task                    |
-| PUT    | `/tasks/reorder` | Update task order (drag-drop) |
 
 ## 📦 API Data Format
 
-### Task Object
+### Task Object (Response)
 ```json
 {
   "id": 1,
   "title": "Complete project documentation",
   "description": "Write comprehensive README and API docs",
   "due_date": "2025-08-25",
-  "priority": "High",
+  "priority": "high",
   "completed": false,
-  "order_index": 1
+  "steps": [
+    {
+      "id": 1,
+      "task_id": 1,
+      "title": "Write README",
+      "order": 1,
+      "completed": false
+    },
+    {
+      "id": 2,
+      "task_id": 1,
+      "title": "Document API endpoints", 
+      "order": 2,
+      "completed": true
+    }
+  ]
 }
 ```
 
-### Create Task
+### Create Task (Request)
 ```json
 {
   "title": "New Task",
   "description": "Task description",
   "due_date": "2025-08-25",
-  "priority": "Medium",
+  "priority": "medium",
+  "completed": false,
+  "steps": [
+    {
+      "title": "First step",
+      "completed": false
+    }
+  ]
+}
+```
+
+### Task Step Object
+```json
+{
+  "id": 1,
+  "task_id": 1,
+  "title": "Step title",
+  "order": 1,
   "completed": false
 }
 ```
